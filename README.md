@@ -1,6 +1,5 @@
 ### The Only Repo That Contains Audio Books
 
-[![Discord](https://invidget.switchblade.xyz/yMTTkJFEZ9)](https://discord.gg/yMTTkJFEZ9)
 
 ## Change The Food Emoji
 - [Sweet Potato](/README.yam.md)
