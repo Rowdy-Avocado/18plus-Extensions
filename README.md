@@ -1,15 +1,8 @@
 ### The Only Good NSFW Repo
 
 
-## Change The Food Emoji
-- [Sweet Potato](/README.yam.md)
-- [Bread](/README.bread.md)
-- [Cheese](/README.cheese.md)
-- [Cucumber](/README.cucumber.md)
-- [Corn](/README.corn.md)
+Watch NSFW Content. Add this repository using this shortcode: [18+](https://raw.githubusercontent.com/Rowdy-Avocado/18plus-Extensions/builds/repo.json)
 
-Listen to Audio Books. Add this repository using this shortcode: [Rowdycado](https://raw.githubusercontent.com/Rowdy-Avocado/Rowdycado-Extensions/builds/repo.json)
+~Click~ touch the Eggplant to install it on your phone:
 
-~Click~ eat the avocado to install it on your phone:
-
-[<img alt="alt_text" width="100px" src="https://discordapp.com/assets/56223cd60f7ec48e13e8a0db94dcc785.svg"/>](https://self-similarity.github.io/http-protocol-redirector?r=cloudstreamrepo://raw.githubusercontent.com/Rowdy-Avocado/Rowdycado-Extensions/builds/repo.json)
+[<img alt="alt_text" width="100px" src="https://discordapp.com/assets/f92a9f8821057c551982b659b268ed8e.svg"/>](https://self-similarity.github.io/http-protocol-redirector?r=cloudstreamrepo://raw.githubusercontent.com/Rowdy-Avocado/18plus-Extensions/builds/repo.json)
