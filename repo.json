@@ -1,0 +1,8 @@
+{
+  "name": "18+ Repo (NSFW)",
+  "description": "This Repo Contains The NSFW sources",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/Rowdy-Avocado/18plus-Extensions/builds/plugins.json"
+  ]
+}
