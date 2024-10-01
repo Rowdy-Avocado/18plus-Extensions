@@ -69,7 +69,7 @@ class JavTube : MainAPI() {
         val document = app.get(url).document.select("article#post")
 
         return document.mapNotNull {
-            val innerA = it?.selectFirst("a") ?: return@mapNotNull null
+            val innerA = it.selectFirst("a") ?: return@mapNotNull null
             val linkUrl = fixUrlNull(innerA.attr("href")) ?: return@mapNotNull null
             if (linkUrl.startsWith("https://javtube.watch/tag/")) {
                 //Log.i(DEV, "Result => (innerA) $innerA")

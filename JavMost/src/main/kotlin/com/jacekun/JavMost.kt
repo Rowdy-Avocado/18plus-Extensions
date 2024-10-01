@@ -35,17 +35,17 @@ class JavMost : MainAPI() {
             val link = linkA?.firstOrNull()?.attr("href") ?: ""
             val name = listOfNotNull(linkA?.firstOrNull()?.text(), linkA?.getOrNull(1)?.text()).joinToString(" ")
             //Log.i(DEV, "Result => (name and link) ${name} / ${link}")
-            val image = inner?.select("center > a > img")?.attr("data-src").orEmpty().ifBlank {
-                inner.select("center > a > img")?.attr("src")
+            val image = inner.select("center > a > img").attr("data-src").orEmpty().ifBlank {
+                inner.select("center > a > img").attr("src")
             }.run {
                 if (this.equals("http")) {
-                    inner?.select("center > a > img")?.attr("src")
+                    inner.select("center > a > img").attr("src")
                 } else {
                     this
                 }
             }
             //Log.i(DEV, "Result => (image) ${image}")
-            val year = inner.select("div.card-block > p")?.text()
+            val year = inner.select("div.card-block > p").text()
                 ?.substring(0, 20)?.replace("Release", "")?.trim()
                 ?.substring(0, 4)?.toIntOrNull()
 

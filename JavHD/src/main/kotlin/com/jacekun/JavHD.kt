@@ -108,11 +108,11 @@ class JavHD : MainAPI() {
         val tags = mutableListOf<String>()
         videoDetailsEl?.select("span.meta")?.forEach {
             //Log.i(this.name, "Result => (span meta) $it")
-            val caption = it?.selectFirst("span.meta-info")?.text()?.trim()?.lowercase() ?: ""
+            val caption = it.selectFirst("span.meta-info")?.text()?.trim()?.lowercase() ?: ""
             when (caption) {
                 "category", "tag" -> {
                     val tagtexts = it.select("a").mapNotNull { tag ->
-                        tag?.text()?.trim() ?: return@mapNotNull null
+                        tag.text().trim() ?: return@mapNotNull null
                     }
                     if (tagtexts.isNotEmpty()) {
                         tags.addAll(tagtexts.filter { a -> a.isNotBlank() }.distinct())
@@ -122,7 +122,7 @@ class JavHD : MainAPI() {
         }
 
         val recs = body?.select("div.latest-wrapper div.item.active > div")?.mapNotNull {
-            val innerAImg = it?.select("div.item-img") ?: return@mapNotNull null
+            val innerAImg = it.select("div.item-img") ?: return@mapNotNull null
             val aName = it.select("h3 > a").text().cleanTitle()
             val aImg = innerAImg.select("img").attr("src")
             val aUrl = innerAImg.select("a").firstOrNull()?.attr("href") ?: return@mapNotNull null
@@ -139,7 +139,7 @@ class JavHD : MainAPI() {
         // Video links, find if it contains multiple scene links
         //val sceneList = mutableListOf<TvSeriesEpisode>()
         val sceneList = body?.select("ul.pagination.post-tape > li")?.apmap { section ->
-            val innerA = section?.select("a") ?: return@apmap null
+            val innerA = section.select("a") ?: return@apmap null
             val vidlink = fixUrlNull(innerA.attr("href")) ?: return@apmap null
             Log.i(this.name, "Result => (vidlink) $vidlink")
 
