@@ -1,8 +1,10 @@
 package com.JAVHd
 
+import android.util.Log
 import org.jsoup.nodes.Element
 import com.lagradost.cloudstream3.*
 import com.lagradost.cloudstream3.utils.*
+import okhttp3.FormBody
 
 class JAVHDProvider : MainAPI() {
     override var mainUrl              = "https://javhd.today"
@@ -95,7 +97,7 @@ class JAVHDProvider : MainAPI() {
         val doc = app.get(data).document
         val episodeList = doc.select(".button_style .button_choice_server")
         episodeList.forEach { item->
-            val link = "playEmbed\\('(.*)'\\)".toRegex().find(item.attr("onclick"))?.groups?.get(1)?.value.toString()
+            var link = "playEmbed\\('(.*)'\\)".toRegex().find(item.attr("onclick"))?.groups?.get(1)?.value.toString()
             loadExtractor(link,subtitleCallback,callback)
         }
 
