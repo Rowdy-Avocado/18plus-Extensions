@@ -83,6 +83,7 @@ subprojects {
         implementation("io.karn:khttp-android:0.1.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
         implementation("com.faendir.rhino:rhino-android:1.6.0")
+        implementation("com.google.code.gson:gson:2.10")
     }
 }
 
