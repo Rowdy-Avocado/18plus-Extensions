@@ -1,0 +1,88 @@
+
+
+name: Provider bug
+description: Report any bugs or errors found from this repo.
+labels: bug
+title: "[Bug] Change This Title"
+body:
+  - type: checkboxes
+    id: guidelines
+    attributes:
+      label: Guidelines
+      description: Make sure all the following are correct.
+      options:
+        - label: It **is not** a duplicate issue.
+          required: true
+        - label: It exist on this repo.
+          required: true
+        - label: I have checked the site and it works, but not on the app.
+          required: true
+        - label: It does not say **'coming soon'** when viewed in the app.
+          required: true
+          
+  - type: textarea
+    id: ver-provider
+    attributes:
+      label: Name and Url of provider
+      description: |
+        Specify the provider name and url. Also, provide the link of video you are trying to view.
+      placeholder: Provider Name | Url
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-desc
+    attributes:
+      label: Description
+      description: Describe the Bug / Error
+      placeholder: |
+        A clear and concise description of what the bug is.
+        Explain how it happens, and why it happens, if possible.
+        You can also include any screenshot and/or pastebin link regarding the error.
+        Also, any other info goes in here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected Behaviour
+      description: Describe how it should be behaving.
+      placeholder: |
+        A clear and concise description of what you expected to happen.
+        Explain if it works on earlier versions.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide an example of the issue.
+      placeholder: |
+        Example:
+          1. Go to '...'
+          2. Click on '....'
+          3. See error
+    validations:
+      required: false
+
+  - type: input
+    id: ver-android
+    attributes:
+      label: Android version
+      description: |
+        Find it on your Phone Settings -> About Phone. Include the API number, if possible.
+      placeholder: Android 11 API 30
+    validations:
+      required: true
+
+  - type: input
+    id: ver-cs3xxx
+    attributes:
+      label: Cloudstream version
+      description: |
+        You can find your Cloudstream version in **Settings** -> **Check for Update**. Include the commit version.
+      placeholder: 4.0.0 abcdef
+    validations:
+      required: true
