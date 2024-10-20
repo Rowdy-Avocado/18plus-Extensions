@@ -18,7 +18,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
         TvType.NSFW
     )
     
-    private suspend fun getData(url: String,i: Int,id:Int): List<MovieSearchResponse> {
+    private suspend fun getData(url: String,i: Int,id:Int): List<SearchResponse> {
        
         val response = app.post(
             "$url/wp-admin/admin-ajax.php",
