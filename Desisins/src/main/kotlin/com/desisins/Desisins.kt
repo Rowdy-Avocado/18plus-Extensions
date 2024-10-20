@@ -49,7 +49,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
         val home = document.select("div.home_post_cont").mapNotNull {
             toResult(it)
         }
-        return newHomePageResponse(request.name, home)
+        return newHomePageResponse("Shorts", home)
     }
 
     override suspend fun search(query: String): List<SearchResponse> {
