@@ -14,7 +14,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
     override var lang = "hi"
     override val hasDownloadSupport = true
     override val supportedTypes = setOf(
-        TvType.Movie,
+        TvType.NSFW
     )
     
     private suspend fun getData( i: Int): Document {
