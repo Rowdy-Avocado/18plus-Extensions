@@ -18,7 +18,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
     )
     
     private suspend fun getData( i: Int): Document {
-       
+       i= i-12
         val response = app.post(
             "$mainUrl/wp-admin/admin-ajax.php",
             data = mapOf(
@@ -32,8 +32,8 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
         return  Jsoup.parse(response)
     }
     private fun toResult(post: Element): SearchResponse {
-        val url = post.select("a")[3].attr("href")
-        val title = post.select("a")[3].text()
+        val url = post.select("h3 > a").attr("href")
+        val title = post.select("h3 > a").text()
         var imageUrl = post.select("img").attr("src")
        // Log.d("post",post.toString())
         //val quality = post.select(".video-label").text()
