@@ -24,7 +24,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
             data = mapOf(
 			    "action" to "grid_ajax_load_more",
 			    "cat_id" to "-1",
-			    "current_posts" to "${i-12}",
+			    "current_posts" to "$i",
 			    "type" to ""
             )
         ).text
@@ -44,7 +44,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
     
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
      //val url =if(page==1) "$mainUrl/${request.data}/" else  "$mainUrl/${request.data}/page/$page/" 
-        val document = getData(page*12)
+        val document = getData(page*12-12)
         
         val home = document.select("div.home_post_cont").mapNotNull {
             toResult(it)
