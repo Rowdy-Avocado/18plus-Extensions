@@ -18,7 +18,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
         TvType.NSFW
     )
     
-    private suspend fun getData(url: String,i: Int,id:Int): List<SearchResponse> {
+    private suspend fun getData(url: String,i: Int,id:Int): List<MovieSearchResponse> {
        
         val response = app.post(
             "$url/wp-admin/admin-ajax.php",
@@ -48,8 +48,8 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
     
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
      //val url =if(page==1) "$mainUrl/${request.data}/" else  "$mainUrl/${request.data}/page/$page/" 
-        val shorts = getData(surl,page*12-12,-1)
-        val mms = getData(mainUrl, page * 12 - 12, 4)
+                val shorts = getData(surl,page*12-12,-1)
+                val mms = getData(mainUrl, page * 12 - 12, 4)
 		val nri4 = getData(mainUrl, page * 12 - 12, 366)
 		val roleplay = getData(mainUrl, page * 12 - 12, 426)
 		val livex = getData(mainUrl, page * 12 - 12, 12)
@@ -63,6 +63,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
 		val premium = getData(mainUrl, page * 12 - 12, 668)
         return newHomePageResponse(
         	 listOf(
+        	       HomePageList("Shorts", shorts, false),
 				    HomePageList("Mms", mms, false),
 				    HomePageList("4NRI", nri4, false),
 				    HomePageList("Roleplay", roleplay, false),
@@ -74,8 +75,7 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
 				    HomePageList("Viral", viral, false),
 				    HomePageList("Chat", chat, false),
 				    HomePageList("Wksh", wksh, false),
-				    HomePageList("Premium", premium, false)
-				    ),true
+				    HomePageList("Premium", premium, false) ),true
         )
     }
 
