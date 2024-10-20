@@ -18,13 +18,13 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
     )
     
     private suspend fun getData( i: Int): Document {
-       i= i-12
+       
         val response = app.post(
             "$mainUrl/wp-admin/admin-ajax.php",
             data = mapOf(
 			    "action" to "grid_ajax_load_more",
 			    "cat_id" to "-1",
-			    "current_posts" to "$i",
+			    "current_posts" to "${i-12}",
 			    "type" to ""
             )
         ).text
