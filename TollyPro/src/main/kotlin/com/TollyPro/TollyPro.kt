@@ -16,7 +16,7 @@ import org.jsoup.nodes.Element
 
 class TollyPro : MainAPI() {
 
-    override var mainUrl = "https://tellyhd.skinT"
+    override var mainUrl = "https://tellyhd.live"
     override var name = "TellyHD"
     override val hasMainPage= true
     override var lang= "hi"
