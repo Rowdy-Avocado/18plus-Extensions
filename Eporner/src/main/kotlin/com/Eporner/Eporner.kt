@@ -44,10 +44,10 @@ class Eporner : MainAPI() {
     private fun Element.toSearchResult(): SearchResponse {
         val title = fixTitle(this.select("div.mbunder p a").text()).trim()
         val href = fixUrl(this.select("div.mbcontent a").attr("href"))
-        var posterUrl = fixUrl(this.selectFirst("img").attr("data-src"))
-        if (posterUrl.isNullOrBlank()) {
-            posterUrl = fixUrl(this.selectFirst("img").attr("src"))
-        }
+        val posterUrl = this.selectFirst("img")?.let {
+            fixUrl(it.attr("data-src")).takeIf { url -> url.isNotBlank() }
+                ?: fixUrl(it.attr("src"))
+        } ?: null
         return newMovieSearchResponse(title, href, TvType.Movie) {
             this.posterUrl = posterUrl
         }
