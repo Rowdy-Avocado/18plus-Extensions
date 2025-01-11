@@ -87,10 +87,10 @@ class Desisins : MainAPI() { // all providers must be an instance of MainAPI
         }
     }
 
-    override suspend fun load(url: String): LoadResponse {
+    override suspend fun load(url: String): LoadResponse? {
         val document = app.get(url).document
 
-        val title = document.selectFirst("h1").text()
+        val title = document.selectFirst("h1")?.text() ?: return null
         //val poster = fixUrlNull(document.select("h2 > img").first()?.attr("src"))
         return newMovieLoadResponse(title, url, TvType.Movie, url) {
             this.posterUrl = ""
