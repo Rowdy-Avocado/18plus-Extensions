@@ -37,7 +37,7 @@ class Whoreshub : MainAPI() {
     private fun Element.toSearchResult(): SearchResponse {
         val title = this.attr("title")
         val href = this.attr("href")
-        val posterUrl = fixUrlNull(this.selectFirst("img").attr("data-src"))
+        val posterUrl = fixUrlNull(this.selectFirst("img")?.attr("data-src"))
         
         return newMovieSearchResponse(title, href, TvType.Movie) {
             this.posterUrl = posterUrl
@@ -56,10 +56,10 @@ class Whoreshub : MainAPI() {
         return searchResponse
     }
 
-    override suspend fun load(url: String): LoadResponse {
+    override suspend fun load(url: String): LoadResponse? {
         val document = app.get(url).document
-        val title = document.selectFirst("meta[property=og:title]").attr("content")
-        val posterUrl = fixUrlNull(document.selectFirst("meta[property=og:image]").attr("content"))
+        val title = document.selectFirst("meta[property=og:title]")?.attr("content") ?: return null
+        val posterUrl = fixUrlNull(document.selectFirst("meta[property=og:image]")?.attr("content"))
  
         return newMovieLoadResponse(title, url, TvType.NSFW, url) {
             this.posterUrl = posterUrl
