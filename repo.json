@@ -3,6 +3,6 @@
   "description": "This Repo Contains The NSFW sources",
   "manifestVersion": 1,
   "pluginLists": [
-    "https://raw.githubusercontent.com/Rowdy-Avocado/18plus-Extensions/builds/plugins.json"
+    "https://raw.githubusercontent.com/rigaz29/18plus-Extensions/builds/plugins.json"
   ]
 }
