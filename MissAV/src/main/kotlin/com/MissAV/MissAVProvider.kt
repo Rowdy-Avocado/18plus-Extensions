@@ -7,7 +7,7 @@ import com.lagradost.cloudstream3.utils.*
 import okhttp3.FormBody
 
 class MissAVProvider : MainAPI() {
-    override var mainUrl              = "https://missav.com"
+    override var mainUrl              = "https://missav.ws"
     override var name                 = "MissAV"
     override val hasMainPage          = true
     override var lang                 = "en"
