@@ -14,5 +14,5 @@ cloudstream {
     **/
     status  = 1 // will be 3 if unspecified
     tvTypes = listOf("NSFW")
-    iconUrl = "https://missav.com/missav/logo-square.png"
+    iconUrl = "https://missav.ws/missav/logo-square.png"
 }
