@@ -17,12 +17,12 @@ class MissAVProvider : MainAPI() {
     override val vpnStatus            = VPNStatus.MightBeNeeded
 
     override val mainPage = mainPageOf(
-            "/dm513/en/new" to "Recent Update",
-            "/dm509/en/release" to "New Releases",
-            "/dm561/en/uncensored-leak" to "Uncensored Leak",
-            "/dm242/en/today-hot" to "Most Viewed Today",
-            "/dm168/en/weekly-hot" to "Most Viewed by Week",
-            "/dm207/en/monthly-hot" to "Most Viewed by Month"
+            "/dm514/en/new" to "Recent Update",
+            "/dm562/en/release" to "New Releases",
+            "/dm620/en/uncensored-leak" to "Uncensored Leak",
+            "/dm291/en/today-hot" to "Most Viewed Today",
+            "/dm169/en/weekly-hot" to "Most Viewed by Week",
+            "/dm256/en/monthly-hot" to "Most Viewed by Month"
         )
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
             val document = app.get("$mainUrl${request.data}?page=$page").document
