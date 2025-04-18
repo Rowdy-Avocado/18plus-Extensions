@@ -10,7 +10,8 @@ on:
     inputs:
       branchText:
         description: 'Branch to checkout'
-        required: false
+        required: true
+        default: 'staging'
 
 permissions: write-all
 
@@ -21,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          ref: "staging"
+          ref: ${{ github.event.inputs.branchText }}
           path: "src"
 
       - name: Checkout builds
