@@ -39,7 +39,6 @@ class XvideosProvider : MainAPI() {
             if (!isPaged && page < 2 || isPaged) {
                 val soup = app.get(pagedLink).document
                 val home = soup.select("div.thumb-block").mapNotNull {
-                    if (it == null) { return@mapNotNull null }
                     val title = it.selectFirst("p.title a")?.text() ?: ""
                     val link = fixUrlNull(it.selectFirst("div.thumb a")?.attr("href")) ?: return@mapNotNull null
                     val image = it.selectFirst("div.thumb a img")?.attr("data-src")
@@ -112,17 +111,18 @@ class XvideosProvider : MainAPI() {
         val tvType = if (url.contains("channels") || url.contains("pornstars")) TvType.TvSeries else globalTvType
         return when (tvType) {
             TvType.TvSeries -> {
-                TvSeriesLoadResponse(
+                newTvSeriesLoadResponse(
                     name = title ?: "",
                     url = url,
-                    apiName = this.name,
                     type = globalTvType,
                     episodes = episodes,
-                    posterUrl = poster,
-                    plot = title,
-                    showStatus = ShowStatus.Ongoing,
-                    tags = tags,
-                )
+                ) {
+                    apiName = this.name
+                    posterUrl = poster
+                    plot = title
+                    showStatus = ShowStatus.Ongoing
+                    this.tags = tags
+                }
             }
             else -> {
                 newMovieLoadResponse(
@@ -145,10 +145,10 @@ class XvideosProvider : MainAPI() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        app.get(data).document.select("script").apmap { script ->
+        app.get(data).document.select("script").amap { script ->
             val scriptdata = script.data()
             if (scriptdata.isNullOrBlank()) {
-                return@apmap
+                return@amap
             }
             //Log.i(Dev, "scriptdata => $scriptdata")
             if (scriptdata.contains("HTML5Player")) {
@@ -162,39 +162,44 @@ class XvideosProvider : MainAPI() {
                         ), true
                     ).map { stream ->
                         callback(
-                            ExtractorLink(
+                            newExtractorLink(
                                 source = this.name,
                                 name = "${this.name} m3u8",
                                 url = stream.streamUrl,
-                                referer = data,
-                                quality = getQualityFromName(stream.quality?.toString()),
-                                isM3u8 = true
-                            )
+                            ) {
+                                referer = data
+                                quality = getQualityFromName(stream.quality?.toString())
+                                type = ExtractorLinkType.M3U8
+                            }
                         )
                     }
                 }
-                val mp4linkhigh = script.data().substringAfter("html5player.setVideoUrlHigh('").substringBefore("');")
+                val mp4linkhigh = script.data().substringAfter("html5player.setVideoUrlHigh('")
+                    .substringBefore("');")
                 if (mp4linkhigh.isNotBlank()) {
                     callback(
-                        ExtractorLink(
+                        newExtractorLink(
                             source = this.name,
                             name = "${this.name} MP4 High",
                             url = mp4linkhigh,
-                            referer = data,
-                            quality = Qualities.Unknown.value,
-                        )
+                        ) {
+                            referer = data
+                            quality = Qualities.Unknown.value
+                        }
                     )
                 }
-                val mp4linklow = script.data().substringAfter("html5player.setVideoUrlLow('").substringBefore("');")
+                val mp4linklow = script.data().substringAfter("html5player.setVideoUrlLow('")
+                    .substringBefore("');")
                 if (mp4linklow.isNotBlank()) {
                     callback(
-                        ExtractorLink(
+                        newExtractorLink(
                             source = this.name,
                             name = "${this.name} MP4 Low",
                             url = mp4linklow,
-                            referer = data,
-                            quality = Qualities.Unknown.value,
-                        )
+                        ) {
+                            referer = data
+                            quality = Qualities.Unknown.value
+                        }
                     )
                 }
             }
@@ -205,86 +210,94 @@ class XvideosProvider : MainAPI() {
                 Log.i(Dev, "Fetching default link..")
 
                 "(?<=contentUrl\\\":)(.*)(?=\\\",)".toRegex(setOfRegexOption)
-                .findAll(scriptdata).forEach {
-                    it.groupValues.forEach { link ->
-                        val validLinkVal = getLinkAndExt(link)
-                        val validlink = validLinkVal.first
-                        val validlinkext = validLinkVal.second
-                        Log.i(Dev, "Result Default => $validlink")
-                        callback(
-                            ExtractorLink(
-                                source = this.name,
-                                name = "${this.name} $validlinkext",
-                                url = validlink,
-                                referer = data,
-                                quality = Qualities.Unknown.value,
-                                isM3u8 = validlinkext.startsWith("M3")
+                    .findAll(scriptdata).forEach {
+                        it.groupValues.forEach { link ->
+                            val validLinkVal = getLinkAndExt(link)
+                            val validlink = validLinkVal.first
+                            val validlinkext = validLinkVal.second
+                            Log.i(Dev, "Result Default => $validlink")
+                            val linkType =
+                                if (validlinkext.startsWith("M3")) ExtractorLinkType.M3U8 else ExtractorLinkType.VIDEO
+                            callback(
+                                newExtractorLink(
+                                    source = this.name,
+                                    name = "${this.name} $validlinkext",
+                                    url = validlink,
+                                ) {
+                                    referer = data
+                                    quality = Qualities.Unknown.value
+                                    type = linkType
+                                }
                             )
-                        )
+                        }
                     }
-                }
             }
             //Fetch HLS links
             Log.i(Dev, "Fetching HLS Low link..")
             Regex("(?<=setVideoUrlLow\\()(.*?)(?=\\);)", setOfRegexOption).findAll(scriptdata)
                 .forEach {
-                it.groupValues.forEach { link ->
-                    val validLinkVal = getLinkAndExt(link)
-                    val validlink = validLinkVal.first
-                    val validlinkext = validLinkVal.second
-                    Log.i(Dev, "Result HLS Low => $validlink")
-                    callback(
-                        ExtractorLink(
-                            source = this.name,
-                            name = "${this.name} $validlinkext Low",
-                            url = validlink,
-                            referer = data,
-                            quality = Qualities.Unknown.value
+                    it.groupValues.forEach { link ->
+                        val validLinkVal = getLinkAndExt(link)
+                        val validlink = validLinkVal.first
+                        val validlinkext = validLinkVal.second
+                        Log.i(Dev, "Result HLS Low => $validlink")
+                        callback(
+                            newExtractorLink(
+                                source = this.name,
+                                name = "${this.name} $validlinkext Low",
+                                url = validlink,
+                            ) {
+                                referer = data
+                                quality = Qualities.Unknown.value
+                                type = ExtractorLinkType.M3U8
+                            }
                         )
-                    )
+                    }
                 }
-            }
 
             Log.i(Dev, "Fetching HLS High link..")
             Regex("(?<=setVideoUrlHigh\\()(.*?)(?=\\);)", setOfRegexOption).findAll(scriptdata)
                 .forEach {
-                it.groupValues.forEach { link ->
-                    val validLinkVal = getLinkAndExt(link)
-                    val validlink = validLinkVal.first
-                    val validlinkext = validLinkVal.second
-                    Log.i(Dev, "Result HLS High => $validlink")
-                    callback(
-                        ExtractorLink(
-                            source = this.name,
-                            name = "${this.name} $validlinkext High",
-                            url = validlink,
-                            referer = data,
-                            quality = Qualities.Unknown.value
+                    it.groupValues.forEach { link ->
+                        val validLinkVal = getLinkAndExt(link)
+                        val validlink = validLinkVal.first
+                        val validlinkext = validLinkVal.second
+                        Log.i(Dev, "Result HLS High => $validlink")
+                        callback(
+                            newExtractorLink(
+                                source = this.name,
+                                name = "${this.name} $validlinkext High",
+                                url = validlink,
+                            ) {
+                                referer = data
+                                quality = Qualities.Unknown.value
+                                type = ExtractorLinkType.M3U8
+                            }
                         )
-                    )
+                    }
                 }
-            }
 
             Log.i(Dev, "Fetching HLS Default link..")
             Regex("(?<=setVideoHLS\\()(.*?)(?=\\);)", setOfRegexOption).findAll(scriptdata)
                 .forEach {
-                it.groupValues.forEach { link ->
-                    val validLinkVal = getLinkAndExt(link)
-                    val validlink = validLinkVal.first
-                    val validlinkext = validLinkVal.second
-                    Log.i(Dev, "Result HLS Default => $validlink")
-                    callback(
-                        ExtractorLink(
-                            source = this.name,
-                            name = "${this.name} $validlinkext Default",
-                            url = validlink,
-                            referer = data,
-                            quality = Qualities.Unknown.value,
-                            isM3u8 = true
+                    it.groupValues.forEach { link ->
+                        val validLinkVal = getLinkAndExt(link)
+                        val validlink = validLinkVal.first
+                        val validlinkext = validLinkVal.second
+                        Log.i(Dev, "Result HLS Default => $validlink")
+                        callback(
+                            newExtractorLink(
+                                source = this.name,
+                                name = "${this.name} $validlinkext Default",
+                                url = validlink,
+                            ) {
+                                referer = data
+                                quality = Qualities.Unknown.value
+                                type = ExtractorLinkType.M3U8
+                            }
                         )
-                    )
+                    }
                 }
-            }
         }
         return true
     }
