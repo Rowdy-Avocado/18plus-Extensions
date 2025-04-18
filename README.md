@@ -1,7 +1,7 @@
 ### The Ultimate NSFW Repo
 
 
-Watch NSFW Content. Add this repository using this shortcode: [18+](https://raw.githubusercontent.com/Rowdy-Avocado/18plus-Extensions/builds/repo.json)
+Watch NSFW Content. Add this repository using this shortcode: [18+](https://raw.githubusercontent.com/Rowdy-Avocado/18plus-Extensions/builds_staging/repo.json)
 
 ~Click~ touch the Eggplant to install it on your phone:
 
