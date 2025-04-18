@@ -7,6 +7,10 @@ concurrency:
 
 on:
   workflow_dispatch:
+    inputs:
+      branchText:
+        description: 'Branch to checkout'
+        required: false
 
 permissions: write-all
 
